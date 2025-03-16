@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import TheHeader from './components/Header/TheHeader.vue'
+import LayoutFooter from './components/Layout/LayoutFooter.vue'
+import LayoutHeader from './components/Layout/LayoutHeader.vue'
 import CheckoutPage from './pages/CheckoutPage.vue'
 </script>
 
 <template>
-  <TheHeader />
+  <LayoutHeader />
   <main class="px-4 sm:px-8">
     <CheckoutPage />
   </main>
+  <LayoutFooter />
 </template>

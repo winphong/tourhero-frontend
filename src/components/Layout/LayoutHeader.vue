@@ -1,7 +1,7 @@
 <template>
   <header>
     <section
-      class="flex flex-row place-content-between border-b-2 border-gray-200 px-4 sm:px-8 py-4 w-full"
+      class="flex flex-row place-content-between border-b-2 border-gray-100 px-6 sm:px-20 py-4 w-full"
     >
       <img
         alt="Tourhero logo"

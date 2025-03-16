@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TripCancellationPolicyIcon from '../icons/TripCancellationPolicyIcon.vue'
+
 // Note: should be passed as props since cancellation policy might be different for each trip but hardcoded for the purpose of this assignment
 const cancellationPolicies = [
   {
@@ -17,7 +19,15 @@ const cancellationPolicies = [
 <template>
   <article class="border border-gray-200 rounded-sm">
     <div class="px-4 py-4 sm:p-6">
-      <h1 class="text-2xl font-semibold text-navy mb-4">Cancellation policy</h1>
+      <div class="flex flex-row gap-2 items-center mb-4">
+        <!-- <FontAwesomeIcon size="lg" :icon="faFileClipboard" /> -->
+        <TripCancellationPolicyIcon />
+        <h1
+          class="text-2xl font-semibold text-navy max-w-100 overflow-hidden text-ellipsis whitespace-nowrap"
+        >
+          Cancellation policy
+        </h1>
+      </div>
       <section>
         <div class="mb-6" v-for="policy in cancellationPolicies" :key="policy.title">
           <p class="text-md font-semibold text-navy">{{ policy.title }}</p>
