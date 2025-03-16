@@ -1,0 +1,22 @@
+<script setup lang="ts">
+import CancellationPolicy from '@/components/Checkout/CancellationPolicy.vue'
+import TripIncluded from '@/components/Checkout/TripIncluded.vue'
+import GuestDetails from '@/components/Checkout/GuestDetails.vue'
+import TripSummary from '@/components/Checkout/TripSummary.vue'
+</script>
+
+<template>
+  <article class="py-10 md:py-20 sm:px-10 lg:px-30">
+    <h1 class="text-2xl font-semibold text-navy mb-4">Checkout</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-10 gap-4">
+      <div class="col-span-1 sm:col-span-7">
+        <GuestDetails />
+      </div>
+      <div class="col-span-1 sm:col-span-3 flex flex-col gap-4">
+        <TripSummary />
+        <TripIncluded />
+        <CancellationPolicy />
+      </div>
+    </div>
+  </article>
+</template>
