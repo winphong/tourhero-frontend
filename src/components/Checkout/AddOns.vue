@@ -16,10 +16,7 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching available addons:', error)
   } finally {
-    // Simulate slow API call
-    setTimeout(() => {
-      isLoading.value = false
-    }, 600)
+    isLoading.value = false
   }
 })
 

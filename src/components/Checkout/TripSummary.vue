@@ -51,10 +51,7 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching trip:', error)
   } finally {
-    // Simulate slow API call
-    setTimeout(() => {
-      isLoading.value = false
-    }, 400)
+    isLoading.value = false
   }
 })
 </script>
