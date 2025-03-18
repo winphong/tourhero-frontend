@@ -8,8 +8,8 @@ export type TripDto = TripGuest & {
   utilizationInCents: number
 }
 
-export const fetchTrip = async () => {
-  return await axios.get<TripDto>('/v1/trip/details')
+export const fetchTrip = async (offset: number) => {
+  return await axios.get<TripDto>(`/v1/trip/details?offset=${offset}`)
 }
 
 export interface TripAddonsDto {
@@ -24,6 +24,10 @@ export interface TripAddonsDto {
   tripId: string
 }
 
-export const fetchAvailableAddons = async () => {
-  return await axios.get<TripAddonsDto[]>('/v1/trip/addons')
+export const fetchAvailableAddons = async (offset: number) => {
+  return await axios.get<TripAddonsDto[]>(`/v1/trip/addons?offset=${offset}`)
+}
+
+export const checkout = async (requestBody: unknown) => {
+  return await axios.post('/v1/checkout', requestBody)
 }

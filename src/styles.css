@@ -11,6 +11,10 @@
   @apply flex flex-col gap-4;
 }
 
+.form-error-text {
+  @apply text-red-500 text-sm italic;
+}
+
 :root {
   color: #222222;
 }

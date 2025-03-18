@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { fetchAvailableAddons, type TripAddonsDto } from '@/services'
-import { ref, onMounted, onUpdated } from 'vue'
-
-const addOns = ref<TripAddonsDto[]>([])
-const selectedAddons = ref<TripAddonsDto[]>([])
-const isLoading = ref(true)
+import { ref, onMounted } from 'vue'
+const props = defineProps<{
+  modelValue: TripAddonsDto[]
+}>()
 
 onMounted(async () => {
   try {
-    const response = await fetchAvailableAddons()
+    const params = new URLSearchParams(window.location.search)
+
+    const response = await fetchAvailableAddons(
+      params.get('offset') ? Number(params.get('offset')) : 0,
+    )
     addOns.value = response.data
   } catch (error) {
     console.error('Error fetching available addons:', error)
@@ -20,9 +23,25 @@ onMounted(async () => {
   }
 })
 
-onUpdated(() => {
-  console.log('selectedAddOns', selectedAddons.value)
-})
+const addOns = ref<TripAddonsDto[]>([])
+const isLoading = ref(true)
+
+const emit = defineEmits(['update:modelValue'])
+const isPreviouslySelected = (addOn: TripAddonsDto) =>
+  props.modelValue.some((item) => item.id === addOn.id)
+
+const toggleAddOn = (addOn: TripAddonsDto) => {
+  let addons = [...props.modelValue]
+
+  if (isPreviouslySelected(addOn)) {
+    // Remove from selected items
+    addons = addons.filter((item) => item.id !== addOn.id)
+  } else {
+    // Add to selected items
+    addons.push(addOn)
+  }
+  emit('update:modelValue', addons)
+}
 </script>
 
 <template>
@@ -41,12 +60,16 @@ onUpdated(() => {
     </div>
 
     <section v-if="!isLoading">
-      <div v-for="addOn in addOns" :key="addOn.id" class="mb-4 flex items-start gap-3">
+      <div v-if="addOns.length === 0">
+        <p>No add-on available for this trip</p>
+      </div>
+      <div v-else v-for="addOn in addOns" :key="addOn.id" class="mb-4 flex items-start gap-3">
         <input
           type="checkbox"
           :id="addOn.id"
           :value="addOn.id"
-          v-model="selectedAddons"
+          :checked="isPreviouslySelected(addOn)"
+          @change="toggleAddOn(addOn)"
           class="w-5 h-5 border border-gray-400 rounded cursor-pointer"
         />
         <div>
