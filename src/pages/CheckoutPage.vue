@@ -10,16 +10,21 @@ import TripSummary from '@/components/Checkout/TripSummary.vue'
 import AddOns from '@/components/Checkout/AddOns.vue'
 import TermsAndConditions from '@/components/Checkout/TermsAndConditions.vue'
 import { checkout, type TripAddonsDto } from '@/services'
+import { useToast } from 'vue-toast-notification'
 
 const schema = yup.object({
   firstName: yup.string().required('First name is required'),
-  lastName: yup.string().min(3).required('Last name is required'),
+  lastName: yup.string().required('Last name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
 })
 
 const tripId = ref<string | null>(null)
 const userId = ref<string | null>(null)
 const selectedAddons = ref<TripAddonsDto[]>([])
+
+const toast = useToast({
+  duration: 3000,
+})
 
 const onSubmit = async (values: Record<string, string>) => {
   try {
@@ -29,12 +34,20 @@ const onSubmit = async (values: Record<string, string>) => {
       tripId: tripId.value,
       userId: userId.value,
     })
-    alert('Checked out successfully!')
 
-    // Note: Hack to trigger a reload, shouldn't perform a full page reload
-    window.location.reload()
+    toast.success('Checked out successfully!', {
+      onClick() {
+        // Note: Hack to trigger a reload, shouldn't perform a full page reload
+        window.location.reload()
+      },
+      onDismiss() {
+        // Note: Hack to trigger a reload, shouldn't perform a full page reload
+        window.location.reload()
+      },
+    })
   } catch (err) {
     console.error(err)
+    toast.error(err.response.data.message)
   }
 }
 </script>
