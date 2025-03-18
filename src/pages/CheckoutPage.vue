@@ -11,6 +11,7 @@ import AddOns from '@/components/Checkout/AddOns.vue'
 import TermsAndConditions from '@/components/Checkout/TermsAndConditions.vue'
 import { checkout, type TripAddonsDto } from '@/services'
 import { useToast } from 'vue-toast-notification'
+import { AxiosError } from 'axios'
 
 const schema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -47,7 +48,10 @@ const onSubmit = async (values: Record<string, string>) => {
     })
   } catch (err) {
     console.error(err)
-    toast.error(err.response.data.message)
+
+    if (err instanceof AxiosError) {
+      toast.error(err.response?.data.message ?? 'Unexpected error has occured')
+    }
   }
 }
 </script>
